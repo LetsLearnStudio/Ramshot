@@ -1,0 +1,78 @@
+.tools-tabs-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* New inline label style for "Tools" */
+.tools-inline-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  margin-top: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: auto !important; /* Override the 65px width from .sidebar-section label */
+}
+
+.tools-tabs-container .tool-tab-button {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 4px;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.tools-tabs-container .tool-tab-button i {
+  font-size: 14px;
+}
+
+.tools-tabs-container .tool-tab-button span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tool-content-div {
+  margin-bottom: 12px;
+  padding: 2px;
+  background-color: #f5f7fa;
+  border-radius: 6px;
+  border: 1px solid #e0e4e9;
+}
+
+/* Update existing tool tab button styles for consistency */
+.tool-tab-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f0f2f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: #333;
+  width: 100%;
+}
+
+.tool-tab-button:hover {
+  background: #e7eaf0;
+  border-color: #ccc;
+}
+
+.tool-tab-button.active {
+  background: #2980ff;
+  color: white;
+  border-color: #2980ff;
+}

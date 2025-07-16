@@ -1,0 +1,305 @@
+/* mask.css - Updated for reorganized layout */
+.mask-controls-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.mask-controls-row {
+  display: flex;
+  align-items: center; /* Align items to the bottom */
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mask-slider-container2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1; 
+  min-width: 0; /* Allow shrinking */
+}
+
+.mask-slider-container2 label,
+.mask-slider-container2 .masklabel {
+  font-size: 12px; /* Smaller font size */
+  color: #666;
+  margin: 0 8px 0 0; /* Reduced margin */
+  text-align: left;
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: auto; /* Allow label to be as small as possible */
+}
+
+/* Make dropdown grow to fill more space */
+.mask-slider-container2 select,
+.mask-slider-container2 .maskmenu {
+  flex: 1; /* Grow to fill available space */
+  min-width: 60px; /* Increased minimum width */
+}
+
+
+.mask-slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0; /* Allow shrinking */
+}
+
+
+.mask-slider-container label {
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 4px; /* Increased margin */
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Select dropdowns in mask controls */
+.mask-slider-container select,
+.mask-controls-row select {
+  width: 100%;
+  padding: 4px 6px; /* Adjusted padding */
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 11px;
+  background: white;
+  min-width: 70px;
+  height: 24px; /* Set fixed height */
+}
+
+/* Range sliders in mask controls */
+.mask-slider-container input[type="range"],
+.mask-controls-row input[type="range"] {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+  min-width: 50px;
+  margin-bottom: 0px; /* Align with thumb */
+}
+
+
+
+.mask-slider-container input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Color input styling for mask border */
+.mask-color-input {
+  width: 28px; 
+  height: 24px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+
+.mask-color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+}
+
+.mask-color-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.mask-color-input::-moz-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+/* Mask preview overlay styles */
+.mask-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border: 2px dashed rgba(0, 123, 255, 0.6);
+  background: rgba(0, 123, 255, 0.1);
+  z-index: 10;
+}
+
+.mask-preview.circle {
+  border-radius: 50%;
+}
+
+.mask-preview.ellipse {
+  border-radius: 50%;
+}
+
+/* Border controls row with all controls in one row */
+.border-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Container for border label and dropdown - FIXED: Reduced gap */
+.border-label-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 4px; /* Reduced from 8px to 4px */
+}
+
+.border-label-container label {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: 40px; /* Set fixed width to ensure consistent spacing */
+}
+
+.border-label-container select {
+  flex: 1;
+  min-width: 50px;
+  padding: 4px 6px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 11px;
+  background: white;
+  height: 24px;
+}
+
+/* Slider containers for thickness and margin */
+.border-slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.border-slider-container label {
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.border-slider-container input[type="range"] {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+  min-width: 50px;
+  margin-bottom: 0px;
+}
+
+.border-slider-container input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -7px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2f00ff;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* mask.css */
+
+.border-slider-container input[type="range"] {
+  width: 100%;
+  height: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  background: linear-gradient(to right, #ff00ff 0%, #e0e0e0 0%); /* Default gradient */
+  border-radius: 2px;
+  min-width: 50px;
+  margin-bottom: 0px;
+}
+
+.border-slider-container input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none; /* Make track transparent */
+  height: 4px;
+}
+
+.border-slider-container input[type="range"]::-moz-range-track {
+  -moz-appearance: none;
+  appearance: none;
+  background: none; /* Make track transparent */
+  height: 4px;
+}
+
+/* Color input positioned at right edge with 2px margin */
+.border-color-container {
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+
+/* Additional CSS to add to your existing styles - for border-style sliders */
+
+/* Style for all sliders with border-style class to match border slider styling */
+input[type="range"].border-style {
+  width: 100%;
+  height: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  background: linear-gradient(to right, #ff00ff 0%, #e0e0e0 0%); /* Default gradient */
+  border-radius: 2px;
+  min-width: 50px;
+  margin-bottom: 0px;
+}
+
+input[type="range"].border-style::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none; /* Make track transparent */
+  height: 4px;
+}
+
+input[type="range"].border-style::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -7px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2f00ff;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+input[type="range"].border-style::-moz-range-track {
+  -moz-appearance: none;
+  appearance: none;
+  background: none; /* Make track transparent */
+  height: 4px;
+}
+
+input[type="range"].border-style::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2f00ff;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+

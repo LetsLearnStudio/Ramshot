@@ -1,0 +1,278 @@
+/* Text control row styles */
+.text-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.text-control-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.text-control-item.font-select {
+  width: 40%;
+}
+
+.text-control-item.font-select select {
+  width: 100%;
+}
+
+/* Font-specific styles for dropdown options */
+.text-control-item.font-select select option[value="Arial"] {
+  font-family: Arial, sans-serif;
+}
+
+.text-control-item.font-select select option[value="Verdana"] {
+  font-family: Verdana, sans-serif;
+}
+
+.text-control-item.font-select select option[value="Times New Roman"] {
+  font-family: "Times New Roman", serif;
+}
+
+.text-control-item.font-select select option[value="Georgia"] {
+  font-family: Georgia, serif;
+}
+
+.text-control-item.font-select select option[value="Courier New"] {
+  font-family: "Courier New", monospace;
+}
+
+.text-control-item.font-select select option[value="Impact"] {
+  font-family: Impact, sans-serif;
+}
+
+.text-control-item.font-select select option[value="Comic Sans MS"] {
+  font-family: "Comic Sans MS", cursive;
+}
+
+.text-control-item.font-select select option[value="Inter"] {
+  font-family: Inter, sans-serif;
+}
+
+.text-control-item.font-size {
+  display: flex;
+  align-items: center;
+  width: 45%;
+  gap: 5px;
+  position: relative;
+  height: 40px;
+}
+
+.size-slider {
+  width: 70%;
+  height: 6px;
+}
+
+#fontSizeValue {
+  font-size: 11px;
+  min-width: 30px;
+  text-align: center;
+  color: #000000;
+  font-weight: 600;
+  background: rgb(245, 247, 250);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.text-control-item.color-picker {
+  width: 10%;
+}
+
+.text-control-item.color-picker input[type="color"] {
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 0px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.text-control-item.color-picker input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.text-control-item.color-picker input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 3px;
+}
+
+.text-control-item.color-picker input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 3px;
+}
+
+.text-control-item.color-picker input[type="color"]:hover {
+  transform: scale(1.05);
+  border-color: #3498db;
+}
+
+/* Improve slider appearance */
+input[type="range"].size-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd; /* Static background - will be updated by JavaScript */
+  cursor: pointer;
+  width: 70%;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+}
+
+/* WebKit (Chrome, Safari) thumb styles */
+input[type="range"].size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #ff4757;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  margin-top: -8px; /* This centers the thumb on the track */
+}
+
+input[type="range"].size-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(255, 71, 87, 0.4);
+}
+
+/* Firefox thumb styles */
+input[type="range"].size-slider::-moz-range-thumb {
+  background-color: #ff4757;
+  height: 20px;
+  width: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox track styles */
+input[type="range"].size-slider::-moz-range-track {
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  border: none;
+}
+
+
+/* Text input and button container - NEW STYLES */
+.text-input-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0px;
+  width: 100%;
+}
+
+/* Text input box styles - UPDATED */
+#textInput {
+  flex: 1;
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 11px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  height: 32px;
+}
+
+#textInput:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Compact add text button - UPDATED */
+#addTextBtn {
+  padding: 6px 12px;
+  font-size: 11px;
+  height: 32px;
+  min-width: 60px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 4px;
+  border: 1px solid #3498db;
+  background: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+#addTextBtn:hover {
+  background: #2980b9;
+  border-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+#addTextBtn i {
+  font-size: 10px;
+}
+
+/* Delete button styles */
+.text-delete-button {
+  position: absolute;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.text-delete-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tool-tab-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f0f2f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: #333;
+  width: 100%;
+}
+
+.tool-tab-button:hover {
+  background: #e7eaf0;
+  border-color: #ccc;
+}
+
+.tool-tab-button.active {
+  background: #2980ff;
+  color: white;
+  border-color: #2980ff;
+}
+
+.tool-tab-button i {
+  font-size: 16px;
+}

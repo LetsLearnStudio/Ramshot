@@ -1,0 +1,328 @@
+/* Base styles and layout */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+@media print {
+  body {
+    display: none;
+  }
+}
+
+/* Main container layout */
+.image-editor-container {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+}
+
+.editor-wrapper {
+  display: flex;
+  gap: 20px;
+  background: white;
+  border-radius: 0px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  border: 0px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Canvas container styles */
+.canvas-container {
+  flex: 7;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.canvas-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f9fc;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.canvas-wrapper:hover {
+  border-color: rgba(0, 123, 255, 0.2);
+}
+
+.canvas-wrapper canvas {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+/* Sidebar basic styling */
+.sidebar {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 2px 4px;
+  max-width: 300px;
+}
+
+.sidebar-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  height: 100%;
+}
+
+.sidebar-section:hover {
+  border-color: rgba(0, 123, 255, 0.2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+
+.sidebar-section h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.sidebar-section > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.sidebar-section label {
+  font-weight: 500;
+  color: #555;
+  font-size: 12px;
+  width: 65px;
+  flex-shrink: 0;
+  letter-spacing: 0.1px;
+}
+
+    /* Gradient type buttons styling */
+    .gradient-type-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    
+    .gradient-type-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #e0e0e0;
+      background: #f8f9fa;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #666;
+      min-height: 24px;
+    }
+    
+    .gradient-type-btn:hover {
+      border-color: #007bff;
+      background: #f0f8ff;
+      color: #007bff;
+    }
+    
+    .gradient-type-btn.active {
+      border-color: #007bff;
+      background: #007bff;
+      color: white;
+    }
+    
+    .gradient-type-btn i {
+      font-size: 14px;
+    }
+    
+    /* Hide the original select element */
+    #gradientType {
+      display: none;
+    }
+
+.blur-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.blur-shape-btn {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: none; /* Removed outline */
+  border-radius: 8px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.blur-shape-btn:hover {
+  background: #e8f4fd;
+  color: #3498db;
+}
+
+.blur-shape-btn.active {
+  background: #3498db;
+  color: white;
+}
+
+/* Blur intensity container and label */
+.blur-intensity-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0px;
+}
+
+.blur-intensity-label {
+  font-weight: 500;
+  color: #555;
+  font-size: 12px;
+  letter-spacing: 0.1px;
+  margin: 0;
+}
+
+.blur-intensity-slider {
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.blur-intensity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blur-intensity-slider::-webkit-slider-thumb:hover {
+  background: #2980b9;
+  transform: scale(1.1);
+}
+
+.blur-intensity-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.blur-intensity-slider::-moz-range-thumb:hover {
+  background: #2980b9;
+  transform: scale(1.1);
+}
+
+
+.blur-rect-icon {
+  position: relative;
+  width: 20px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+.blur-rect-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px; /* Increased from 8px */
+  height: 8px;  /* Increased from 6px */
+  background: currentColor;
+  border-radius: 1px;
+  opacity: 0.4; /* Slightly more visible */
+}
+
+/* Updated circle icon with bigger inner shape */
+.blur-circle-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.blur-circle-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px; /* Increased from 8px */
+  height: 12px; /* Increased from 8px */
+  background: currentColor;
+  border-radius: 50%;
+  opacity: 0.4; /* Slightly more visible */
+}

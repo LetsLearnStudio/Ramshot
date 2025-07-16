@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Image Editor</title>
+  <link rel="stylesheet" href="styles1.css">
+<link rel="stylesheet" href="styles2.css">
+<link rel="stylesheet" href="styles3.css">
+<link rel="stylesheet" href="share.css">
+<link rel="stylesheet" href="tools.css">
+<link rel="stylesheet" href="shapes.css">
+<link rel="stylesheet" href="text.css">
+<link rel="stylesheet" href="mask.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <script src="right-click-disabler.js"></script>
+
+</head>
+<body>
+  <div class="image-editor-container">
+    <div class="editor-wrapper">
+      <div class="canvas-container">
+        <div class="canvas-wrapper" id="canvasWrapper">
+          <canvas id="canvas"></canvas>
+          <div class="upload-overlay" id="uploadOverlay">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span>Click or drag and drop your image here</span>
+            <span class="upload-subtitle">Support JPG, PNG files</span>
+          </div>
+          <input type="file" id="imageInput" accept="image/*" style="display: none;">
+        </div>
+      </div>
+      
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <div class="tooltip">
+            <div>
+              <label>Gradient</label>
+              <select id="gradientType">
+                <option value="linear">Linear</option>
+                <option value="radial">Radial</option>
+              </select>
+              <div class="gradient-type-buttons">
+                <button class="gradient-type-btn active" data-type="linear" title="Linear Gradient">
+                  <i class="fas fa-arrows-alt-h"></i>
+                  <span>Linear</span>
+                </button>
+                <button class="gradient-type-btn" data-type="radial" title="Radial Gradient">
+                  <i class="fas fa-circle"></i>
+                  <span>Radial</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tooltip">
+            <div>
+              <label>Colors</label>
+              <div class="color-pickers">
+                <button id="randomColorsBtn" class="icon-button" title="Random colors">
+                  <i class="fas fa-random"></i>
+                </button>
+                <input type="color" id="color1" value="#39EFEC" title="Start color">
+                <button id="flipColorsBtn" class="icon-button" title="Flip colors">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+                <input type="color" id="color2" value="#DF22E2" title="End color">
+                <button id="rotateGradientBtn" class="icon-button" title="Rotate gradient angle">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tooltip">
+            <div>
+              <label>Presets</label>
+              <div class="gradient-presets">
+                <div class="preset" style="background: linear-gradient(135deg, #e62019, #3dd6db)"></div>
+                <div class="preset" style="background: linear-gradient(135deg, #a32472, #1de76a)"></div>
+                <div class="preset" style="background: linear-gradient(135deg, #39efec, #df22E2)"></div>
+                <div class="preset" style="background: linear-gradient(135deg, #fc466b, #3f5efb)"></div>
+                <div class="preset" style="background: linear-gradient(135deg, #00c9ff, #92fe9d)"></div> 
+                <div class="preset" style="background: linear-gradient(135deg, #f12711, #f5af19)"></div> 
+                <div class="preset" style="background: linear-gradient(135deg, #11998e, #38ef7d)"></div>
+                <div class="preset" style="background: linear-gradient(135deg, #000000, #000000)"></div>
+                <div class="preset" style="background: linear-gradient(135deg, #ffffff, #ffffff)"></div> 
+                <div class="preset transparent-preset" style="background: transparent; border: 2px dashed #ccc; position: relative;" title="Transparent">
+    <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10px; color: #999; pointer-events: none;">Clear</span>
+  </div>
+              </div>
+            </div>
+          </div>
+          
+         <div class="tooltip">
+          <div class="bg-controls-container">
+            <div class="bg-slider-container">
+              <label>Background</label>
+              <input type="range" id="backgroundSize" min="0" max="100" value="20" class="short-slider border-style">
+            </div>
+            <div class="bg-slider-container">
+              <label>BG Radius</label>
+              <input type="range" id="bgCornerRadius" min="0" max="100" value="0" class="short-slider border-style">
+            </div>
+          </div>
+        </div>
+          
+         <div class="tooltip">
+          <div class="img-controls-container">
+          <div class="img-slider-container">
+              <label>Shadow</label>
+              <input type="range" id="shadowIntensity" min="1" max="50" value="0" class="short-slider border-style">
+            </div>
+            <div class="img-slider-container">
+              <label>Zoom in</label>
+              <input type="range" id="cropIntensity" min="0" max="49" value="0" class="short-slider border-style">
+            </div>
+           </div>
+        </div>
+          
+        <div class="tooltip">
+            <div class="flex-row-container">
+               <div class="checkbox-container">
+                <input type="checkbox" id="normalizeToggle">
+                <label for="normalizeToggle">Auto</label>
+              </div>
+              <div class="padding-slider-container">
+                <label>Padding</label>
+                <input type="range" id="paddingAmount" min="0" max="250" value="50" class="short-slider border-style">
+              </div>
+<input type="color" id="paddingColor" value="#ffffff" title="Padding color" class="padding-color-picker">
+            </div>
+          </div>
+
+        <!-- MASK & BORDER SECTION -->
+        <div class="tooltip">
+          <div class="mask-controls-container">
+            
+            <!-- Row 1: Style, Ratio, Corner Radius -->
+            <div class="mask-controls-row">
+              <div class="mask-slider-container2">
+                <label class="masklabel">Mask</label>
+                <select id="maskType" class="maskmenu">
+                  <option value="rectangle">Rectangle</option>
+                  <option value="diagonal-corners">Leaf1</option>
+                  <option value="diagonal-corners-alt">Leaf2</option>
+                  <option value="wave1">wave1</option>
+                  <option value="wave2">Wave2</option>
+                  <option value="wave3">Wave3</option>
+                  <option value="wave4">Wave4</option>
+                  <option value="vintage">Vintage</option>
+                  <option value="puzzle">Puzzle</option>
+                  <option value="postage">postage</option>
+                  <option value="ornate">Ornate</option>
+                  <option value="ellipse">Ellipse</option>
+                  <option value="star">Star</option>
+                  <option value="heart">Heart</option>
+                  <option value="hexagon">Hexagon</option>
+                </select>
+              </div>
+              <div id="ellipseControls" class="mask-slider-container2" style="display: none;">
+                <label>Ratio</label>
+                <input type="range" id="maskRatio" min="0.2" max="2" step="0.1" value="1">
+              </div>
+              <div id="cornerRadiusControls" class="mask-slider-container2" style="display: flex;">
+                <label>Curve</label>
+                <input type="range" id="maskCornerRadius" class="border-style" min="0" max="100" value="0">
+              </div>
+            </div>
+            
+            <!-- Row 2: Size, Position X, Position Y -->
+            <div class="mask-controls-row" style="display: none;">
+              <div class="mask-slider-container">
+                <label>Size</label>
+                <input type="range" id="maskSize" class="border-style" min="10" max="120" value="80">
+              </div>
+              <div class="mask-slider-container">
+                <label>Position X</label>
+                <input type="range" id="maskPositionX" class="border-style" min="0" max="100" value="50">
+              </div>
+              <div class="mask-slider-container">
+                <label>Position Y</label>
+                <input type="range" id="maskPositionY" class="border-style" min="0" max="100" value="50">
+              </div>
+            </div> 
+            
+<!-- Row 3: Border Controls - ALL IN ONE ROW 
+<div id="borderControls" style="display: none;">
+    <div class="border-controls-row">
+        <div class="border-label-container">
+            <label>Border</label>
+            <select id="maskBorderStyle">
+                <option value="solid">Solid</option>
+                <option value="dashed">Dashed</option>
+                <option value="dotted">Dotted</option>
+                <option value="double">Double</option>
+            </select>
+        </div>
+        <div class="border-slider-container">
+            <label>Thickness</label>
+            <input type="range" id="maskBorderThickness" min="0" max="10" value="0">
+        </div>
+        <div class="border-slider-container">
+            <label>Margin</label>
+            <input type="range" id="maskBorderMargin" min="0" max="50" value="10">
+        </div>
+        <div class="border-color-container">
+            <input type="color" id="maskBorderColor" value="#000000" title="Border color" class="mask-color-input">
+        </div>
+    </div>
+</div>
+-->
+          </div>
+        </div>
+          
+<!-- Ratio presets section -->
+         <div class="tooltip">
+            <div>
+              <label>Ratio</label>
+              <select id="aspectRatio" aria-label="Image aspect ratio">
+                <option value="auto" selected>Auto</option>
+                <option value="square">Square (1:1)</option>
+                <option value="horizontal">Landscape (16:9)</option>
+                <option value="vertical">Portrait (9:16)</option>
+                <option value="4:3">4:3</option>
+                <option value="3:2">3:2</option>
+                <option value="2:1">2:1</option>
+                <option value="21:9">21:9 Ultrawide</option>
+                <option value="3:4">3:4</option>
+                <option value="2:3">2:3</option>
+                <option value="instagram">Instagram (4:5)</option>
+                <option value="facebook">Facebook Cover (1.91:1)</option>
+              </select>
+            </div>
+          </div>
+          
+<!-- Tools section -->
+          <div class="tools-tabs-container">
+  <label class="tools-inline-label">Tools</label>
+  <button id="blurTabBtn" class="tool-tab-button">
+    <i class="fas fa-eye-slash"></i>
+    <span>Blur</span>
+  </button>
+  
+  <button id="textTabBtn" class="tool-tab-button">
+    <i class="fas fa-font"></i>
+    <span>Text</span>
+  </button>
+  
+  <button id="shapeTabBtn" class="tool-tab-button">
+    <i class="fas fa-shapes"></i>
+    <span>Shapes</span>
+  </button>
+</div>
+
+<!-- Updated blur controls section - replace the existing blurIntensityDiv -->
+<div id="blurIntensityDiv" class="tool-content-div" style="display: none;">
+  <div class="blur-controls-row">
+    <button class="blur-shape-btn active" data-shape="rectangle" id="blurRectBtn">
+      <div class="blur-rect-icon"></div>
+    </button>
+    <button class="blur-shape-btn" data-shape="circle" id="blurCircleBtn">
+      <div class="blur-circle-icon"></div>
+    </button>
+    <div class="blur-intensity-container">
+      <label for="blurIntensity" class="blur-intensity-label">Intensity</label>
+      <input type="range" id="blurIntensity" min="1" max="20" value="5" class="blur-intensity-slider border-style">
+    </div>
+  </div>
+</div>
+
+
+
+      <div id="textControlsDiv" class="tool-content-div" style="display: none;">
+        <div class="text-controls-row">
+          <div class="text-control-item font-select">
+            <select id="fontType">
+              <option value="Arial">Arial</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Courier New">Courier New</option>
+              <option value="Impact">Impact</option>
+              <option value="Comic Sans MS">Comic Sans MS</option>
+              <option value="Inter">Inter</option>
+            </select>
+          </div>
+          <div class="text-control-item font-size">
+            <input type="range" id="fontSize" min="8" max="72" value="24" class="size-slider border-style">
+            <span id="fontSizeValue">24px</span>
+          </div>
+          <div class="text-control-item color-picker">
+            <input type="color" id="textColor" value="#000000">
+          </div>
+        </div>
+             <div class="text-input-container">
+             <input type="text" id="textInput" placeholder="Enter your text here...">
+             <button id="addTextBtn" class="icon-button">
+             <i class="fas fa-plus"></i> <span id="textBtnLabel">Add</span>
+            </button>
+           </div>
+      </div>
+
+      <div id="shapeControlsDiv" class="tool-content-div" style="display: none;">
+          <div class="shape-controls-row">
+            <select id="shapeType">
+              <option value="rectangle">Rectangle</option>
+              <option value="roundedRect">Rounded Rectangle</option>
+              <option value="circle">Circle</option>
+              <option value="ellipse">Ellipse</option>
+              <option value="arrow">Arrow</option>
+            </select>
+            <div class="shape-stroke-container">
+              <input type="range" id="strokeWidth" min="1" max="10" value="4" class="border-style">
+            </div>
+            <input type="color" id="shapeColor" value="#3498db">
+          </div>
+        </div>
+          
+
+          
+          <div id="normalizationControls" style="display:none;">
+            <div class="tooltip">
+              <div class="padding-info-container">
+                <div class="padding-values">
+                  <small>Padding: </small>
+                  <span id="paddingTop">0</span> | 
+                  <span id="paddingRight">0</span> | 
+                  <span id="paddingBottom">0</span> | 
+                  <span id="paddingLeft">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bottom ribbon section -->
+             <div class="bottom-ribbon">
+             <div class="tooltip">
+              <button id="copyBtn" class="icon-button" aria-label="Copy">
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+            <div class="tooltip">
+              <button id="downloadBtn" class="icon-button" aria-label="Download">
+                <i class="fas fa-download"></i>
+              </button>
+            </div>
+            <div class="tooltip">
+              <button id="shareBtn" class="icon-button" aria-label="Share">
+                <i class="fas fa-share-alt"></i>
+              </button>
+            </div>
+
+            <div class="share-menu-overlay" id="shareMenuOverlay">
+        <div class="share-menu">
+
+            <div class="share-section-title">Social Media</div>
+            <div class="share-options-grid">
+                <div class="share-option facebook" data-platform="facebook">
+                    <div class="share-option-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="share-option-label">Facebook</div>
+                </div>
+
+                <div class="share-option twitter" data-platform="twitter">
+                    <div class="share-option-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div class="share-option-label">Twitter</div>
+                </div>
+
+                <div class="share-option instagram" data-platform="instagram">
+                    <div class="share-option-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="share-option-label">Instagram</div>
+                </div>
+
+                <div class="share-option linkedin" data-platform="linkedin">
+                    <div class="share-option-icon">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <div class="share-option-label">LinkedIn</div>
+                </div>
+
+                <div class="share-option pinterest" data-platform="pinterest">
+                    <div class="share-option-icon">
+                        <i class="fab fa-pinterest-p"></i>
+                    </div>
+                    <div class="share-option-label">Pinterest</div>
+                </div>
+
+                <div class="share-option reddit" data-platform="reddit">
+                    <div class="share-option-icon">
+                        <i class="fab fa-reddit-alien"></i>
+                    </div>
+                    <div class="share-option-label">Reddit</div>
+                </div>
+
+                <div class="share-option tumblr" data-platform="tumblr">
+                    <div class="share-option-icon">
+                        <i class="fab fa-tumblr"></i>
+                    </div>
+                    <div class="share-option-label">Tumblr</div>
+                </div>
+
+                <div class="share-option tiktok" data-platform="tiktok">
+                    <div class="share-option-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="share-option-label">TikTok</div>
+                </div>
+
+                <div class="share-option snapchat" data-platform="snapchat">
+                    <div class="share-option-icon">
+                        <i class="fab fa-snapchat-ghost"></i>
+                    </div>
+                    <div class="share-option-label">Snapchat</div>
+                </div>
+            </div>
+
+            <div class="messaging-apps">
+                <div class="share-section-title">Messaging</div>
+                <div class="share-options-grid">
+                    <div class="share-option whatsapp" data-platform="whatsapp">
+                        <div class="share-option-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="share-option-label">WhatsApp</div>
+                    </div>
+
+                    <div class="share-option telegram" data-platform="telegram">
+                        <div class="share-option-icon">
+                            <i class="fab fa-telegram-plane"></i>
+                        </div>
+                        <div class="share-option-label">Telegram</div>
+                    </div>
+
+                    <div class="share-option discord" data-platform="discord">
+                        <div class="share-option-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="share-option-label">Discord</div>
+                </div>
+                </div>
+            </div>
+
+            <div class="utilities">
+                <div class="share-section-title">Other Options</div>
+                <div class="share-options-grid">
+                    <div class="share-option email" data-platform="email">
+                        <div class="share-option-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="share-option-label">Email</div>
+                    </div>
+
+          </div>
+        </div>
+        
+      </div>
+    </div>
+             </div>
+  
+  <script src="script.js"></script>
+  <script src="slider.js"></script>
+  <script src="historyManagement.js"></script>
+  <script src="colorGradient.js"></script>
+  <script src="blurbuttons.js"></script>
+  <script src="blurEditing.js"></script>
+  <script src="paddingNormalization.js"></script>
+  <script src="eventHandlers.js"></script>
+  <script src="Text.js"></script>
+  <script src="shapes.js"></script>
+  <script src="tools.js"></script>
+  <script src="share.js"></script>
+  <script src="mask.js"></script>
+  <script src="buttonsDropdown.js"></script>
+
+</body>
+</html>

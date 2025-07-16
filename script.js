@@ -1,5 +1,5 @@
 // **NEW**: Add this at the top of your script.js
-const EXTENSION_ID = 'kaiemldppikgjhonkcenekgnenkamkle';
+window.EXTENSION_ID = 'kaiemldppikgjhonkcenekgnenkamkle';
 
 // Core DOM elements
 const imageInput = document.getElementById('imageInput');

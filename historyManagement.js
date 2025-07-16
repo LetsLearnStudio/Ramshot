@@ -1,19 +1,12 @@
-// **MODIFIED**: Renamed 'history' to 'actionHistory' to avoid conflict
 let actionHistory = [];
 let currentState = -1;
 
-const EXTENSION_ID = 'kaiemldppikgjhonkcenekgnenkamkle';
-
 function saveState() {
-  // **MODIFIED**: Use 'actionHistory'
   if (actionHistory.length >= 10) actionHistory.shift();
-  
   const state = {
     canvasData: canvas.toDataURL(),
     blurObjects: JSON.parse(JSON.stringify(blurObjects))
   };
-  
-  // **MODIFIED**: Use 'actionHistory'
   actionHistory.push(state);
   currentState = actionHistory.length - 1;
 }
@@ -21,7 +14,6 @@ function saveState() {
 function undo() {
   if (currentState > 0) {
     currentState--;
-    // **MODIFIED**: Use 'actionHistory'
     const state = actionHistory[currentState];
     const img = new Image();
     img.src = state.canvasData;
@@ -35,10 +27,8 @@ function undo() {
 }
 
 function redo() {
-  // **MODIFIED**: Use 'actionHistory'
   if (currentState < actionHistory.length - 1) {
     currentState++;
-    // **MODIFIED**: Use 'actionHistory'
     const state = actionHistory[currentState];
     const img = new Image();
     img.src = state.canvasData;
@@ -51,44 +41,41 @@ function redo() {
   }
 }
 
+// Updated downloadImage function to save processed image to history
 function downloadImage() {
+  // Temporarily clear the selected blur to hide selection handles
   const tempSelectedBlur = selectedBlur;
   selectedBlur = null;
   
+  // Redraw without selection handles
   drawImageWithEffects();
   if (isBlurMode) {
     drawAllBlurs();
   }
   
+  // Get the processed image data
   const processedDataUrl = canvas.toDataURL();
   
+  // Create download link
   const link = document.createElement('a');
   link.download = 'RamaScreenshot.png';
   link.href = processedDataUrl;
   link.click();
   
-  if (!EXTENSION_ID || EXTENSION_ID === 'kaiemldppikgjhonkcenekgnenkamkle') {
-      alert('Extension ID is not configured in historyManagement.js');
-      return;
-  }
-  
-  chrome.runtime.sendMessage(
-    EXTENSION_ID,
-    {
-      action: 'saveToHistory',
-      processedDataUrl: processedDataUrl
-    }, 
-    function(response) {
-      if (response && response.error) {
-        console.error('Failed to save to history:', response.error);
-      } else {
-        console.log('Successfully saved to extension history.');
-      }
+  // Save the processed image to history
+  chrome.runtime.sendMessage({
+    action: 'saveToHistory',
+    processedDataUrl: processedDataUrl
+  }, function(response) {
+    if (response && response.error) {
+      console.error('Failed to save to history:', response.error);
     }
-  );
+  });
   
+  // Restore the selected blur state
   selectedBlur = tempSelectedBlur;
   
+  // Redraw with selection handles if needed
   if (selectedBlur) {
     drawImageWithEffects();
     drawAllBlurs();
@@ -108,8 +95,7 @@ function resetCanvas() {
   // Reset controls
   document.getElementById('color1').value = "#3498db";
   document.getElementById('color2').value = "#9b59b6";
-  // cornerRadius is not defined, assuming it's a typo for bgCornerRadius
-  // if you have an element with id 'cornerRadius', ensure it is handled correctly.
+  cornerRadius.value = 0;
   backgroundSizeInput.value = 20;
   aspectRatio.value = "original";
   bgCornerRadius.value = 0;
@@ -123,7 +109,6 @@ function resetCanvas() {
   document.getElementById("blurIntensityDiv").style.display = "none";
   document.getElementById("shapeDiv").style.display = "none";
   
-  // **MODIFIED**: Use 'actionHistory'
   actionHistory = [];
   currentState = -1;
   drawImageWithEffects();

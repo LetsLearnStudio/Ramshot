@@ -63,7 +63,7 @@ function downloadImage() {
   link.click();
   
   // Save the processed image to history
-  chrome.runtime.sendMessage({
+  chrome.runtime.sendMessage(window.EXTENSION_ID, {
     action: 'saveToHistory',
     processedDataUrl: processedDataUrl
   }, function(response) {

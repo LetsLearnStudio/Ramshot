@@ -1,3 +1,6 @@
+// **NEW**: Define your Extension ID at the top of the file
+const EXTENSION_ID = 'kaiemldppikgjhonkcenekgnenkamkle';
+
 let history = [];
 let currentState = -1;
 
@@ -62,15 +65,26 @@ function downloadImage() {
   link.href = processedDataUrl;
   link.click();
   
-  // Save the processed image to history
-  chrome.runtime.sendMessage({
-    action: 'saveToHistory',
-    processedDataUrl: processedDataUrl
-  }, function(response) {
-    if (response && response.error) {
-      console.error('Failed to save to history:', response.error);
+  if (!EXTENSION_ID || EXTENSION_ID === 'kaiemldppikgjhonkcenekgnenkamkle') {
+      alert('Extension ID is not configured in historyManagement.js');
+      return;
+  }
+  
+  // **FIXED**: Added the EXTENSION_ID as the first argument
+  chrome.runtime.sendMessage(
+    EXTENSION_ID,
+    {
+      action: 'saveToHistory',
+      processedDataUrl: processedDataUrl
+    }, 
+    function(response) {
+      if (response && response.error) {
+        console.error('Failed to save to history:', response.error);
+      } else {
+        console.log('Successfully saved to extension history.');
+      }
     }
-  });
+  );
   
   // Restore the selected blur state
   selectedBlur = tempSelectedBlur;

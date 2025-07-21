@@ -1,4 +1,5 @@
-let actionHistory = [];
+//historyManagement.js
+  let actionHistory = [];
 let currentState = -1;
 
 function saveState() {

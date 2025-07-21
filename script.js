@@ -1,5 +1,4 @@
-// **NEW**: Add this at the top of your script.js
-window.EXTENSION_ID = 'kaiemldppikgjhonkcenekgnenkamkle';
+window.EXTENSION_ID = 'faapgejmcepbfinkafcmadnccpaepeon'; 
 
 // Core DOM elements
 const imageInput = document.getElementById('imageInput');
@@ -27,22 +26,16 @@ canvas.width = 400;
 canvas.height = 300;
 
 
-// **MODIFIED**: Load the image from the URL hash when the page loads
+// **MODIFIED**: Load the image by requesting it from the extension when the page loads
 document.addEventListener('DOMContentLoaded', function() {
-  // Check the URL hash for image data
-  if (window.location.hash) {
-    // The dataUrl is the hash, minus the '#' symbol
-    const dataUrl = window.location.hash.substring(1);
-    
-    if (dataUrl.startsWith('data:image')) {
-      image.src = dataUrl;
-      image.onload = () => {
-        drawImageWithEffects();
-        uploadOverlay.classList.add('hidden');
-      };
-      // Clear the hash to keep the URL clean
-      history.replaceState(null, document.title, window.location.pathname + window.location.search);
-    }
+  // Check the URL for an image key
+  const urlParams = new URLSearchParams(window.location.search);
+  const imageKey = urlParams.get('imageKey');
+
+  if (imageKey) {
+    loadImageFromExtension(imageKey);
+    // Clear the key from the URL to keep it clean
+    history.replaceState(null, document.title, window.location.pathname);
   }
 
   // Initialize text editing functionalities
@@ -56,6 +49,35 @@ document.addEventListener('DOMContentLoaded', function() {
     saveToExtBtn.addEventListener('click', saveToExtensionHistory);
   }
 });
+
+// **CORRECTED**: Function to request the image from the extension using a key
+function loadImageFromExtension(key) {
+  // The check for the specific placeholder ID has been removed.
+  if (!EXTENSION_ID) {
+    alert('Extension ID is not configured. Cannot load image.');
+    return;
+  }
+
+  chrome.runtime.sendMessage(
+    EXTENSION_ID,
+    {
+      action: 'getPendingImage',
+      imageKey: key
+    },
+    function(response) {
+      if (response && response.success && response.dataUrl) {
+        image.src = response.dataUrl;
+        image.onload = () => {
+          drawImageWithEffects();
+          uploadOverlay.classList.add('hidden');
+        };
+      } else {
+        console.error('Failed to load image from extension:', response?.error || 'No response');
+        alert('Could not load image from the extension. The key may be invalid or expired. Please try taking the screenshot again.');
+      }
+    }
+  );
+}
 
 
 // Reset canvas function
@@ -95,9 +117,10 @@ canvasWrapper.addEventListener('drop', (e) => {
   }
 });
 
-// **NEW**: Function to send the processed image back to the extension
+// **CORRECTED**: Function to send the processed image back to the extension
 async function saveToExtensionHistory() {
-  if (!EXTENSION_ID || EXTENSION_ID === 'kaiemldppikgjhonkcenekgnenkamkle') {
+  // The check for the specific placeholder ID has been removed.
+  if (!EXTENSION_ID) {
     alert('Extension ID is not configured in the script.js file.');
     return;
   }

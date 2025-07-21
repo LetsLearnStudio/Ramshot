@@ -1,4 +1,4 @@
-window.EXTENSION_ID = 'faapgejmcepbfinkafcmadnccpaepeon'; 
+window.EXTENSION_ID = 'oimmbehgfogiialojedfoigidgidhhmp'; 
 
 // Core DOM elements
 const imageInput = document.getElementById('imageInput');

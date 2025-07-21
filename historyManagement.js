@@ -1,4 +1,5 @@
-let actionHistory = [];
+//historyManagement.js
+  let actionHistory = [];
 let currentState = -1;
 
 function saveState() {
@@ -41,7 +42,7 @@ function redo() {
   }
 }
 
-// Updated downloadImage function with better handling for duplicates
+// Updated downloadImage function to save processed image to history
 function downloadImage() {
   // Temporarily clear the selected blur to hide selection handles
   const tempSelectedBlur = selectedBlur;
@@ -67,22 +68,8 @@ function downloadImage() {
     action: 'saveToHistory',
     processedDataUrl: processedDataUrl
   }, function(response) {
-    if (response) {
-      if (response.error) {
-        console.error('Failed to save to history:', response.error);
-      } else if (response.success) {
-        if (response.isDuplicate) {
-          console.log('Duplicate image not added to history:', response.message);
-          // Optionally show a subtle notification to user
-          // showNotification('Image already exists in history', 'info');
-        } else {
-          console.log('Image saved to history:', response.message);
-          // Optionally show success notification
-          // showNotification('Image saved to history', 'success');
-        }
-      }
-    } else {
-      console.error('No response received from extension');
+    if (response && response.error) {
+      console.error('Failed to save to history:', response.error);
     }
   });
   
@@ -94,39 +81,6 @@ function downloadImage() {
     drawImageWithEffects();
     drawAllBlurs();
   }
-}
-
-// Optional: Helper function to show notifications to user
-function showNotification(message, type = 'info') {
-  // Create a simple notification element
-  const notification = document.createElement('div');
-  notification.textContent = message;
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 12px 20px;
-    border-radius: 6px;
-    color: white;
-    font-size: 14px;
-    z-index: 10000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    ${type === 'success' ? 'background-color: #4CAF50;' : 
-      type === 'error' ? 'background-color: #f44336;' : 
-      'background-color: #2196F3;'}
-  `;
-  
-  document.body.appendChild(notification);
-  
-  // Animate in
-  setTimeout(() => notification.style.opacity = '1', 10);
-  
-  // Remove after 3 seconds
-  setTimeout(() => {
-    notification.style.opacity = '0';
-    setTimeout(() => document.body.removeChild(notification), 300);
-  }, 3000);
 }
 
 function resetCanvas() {
